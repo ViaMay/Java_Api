@@ -11,17 +11,17 @@ import java.io.IOException;
 
 public class Controller {
     private RestTemplate restTemplate;
-        private final String BASE_URL = "https://petstore.swagger.io/v2/store/order";
+    private final String BASE_URL = "https://petstore.swagger.io/v2/";
+    private String url;
 
-    public Controller() {
+    public Controller(String url) {
         restTemplate = new RestTemplate();
+        this.url = url;
     }
-
-    private final String BASE_URL_https = "https://petstore.swagger.io/v2/store/order";
 
     public <T> T controllerPost(Object object, Class<T> classResponse) {
         try {
-            T response = restTemplate.postForObject(BASE_URL, object, classResponse);
+            T response = restTemplate.postForObject(BASE_URL + url, object, classResponse);
             System.out.println(response);
             return response;
         } catch (HttpServerErrorException errorException) {
@@ -47,32 +47,5 @@ public class Controller {
             e.printStackTrace();
         }
         return  null;
-    }
-
-    public OrderResponse controllerPostOrder(Object object) {
-            OrderResponse response = restTemplate.postForObject(BASE_URL, object, OrderResponse.class);
-            System.out.println(response);
-            return response;
-    }
-
-    public ErrorResponse controllerPostError(Object object) {
-        try {
-            ErrorResponse response = restTemplate.postForObject(BASE_URL, object, ErrorResponse.class);
-            System.out.println(response);
-            return response;
-        } catch (HttpServerErrorException errorException) {
-            String responseBody = errorException.getResponseBodyAsString();
-            System.out.println(responseBody);
-            try {
-                ErrorResponse Response = new ObjectMapper().readValue(responseBody, ErrorResponse.class);
-                System.out.println(Response);
-
-                return Response;
-            }
-            catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        return null;
     }
 }

@@ -17,10 +17,11 @@ import java.util.Map;
 public class OrderFunctionalCase
 {
     private Controller controller;
+    private String url = "store/order";
 
    @BeforeTest
    public void SetUp(){
-       controller = new Controller();
+       controller = new Controller(url);
    }
 
     @Test()

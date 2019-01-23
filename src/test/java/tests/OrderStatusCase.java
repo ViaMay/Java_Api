@@ -13,10 +13,11 @@ import java.util.Map;
 public class OrderStatusCase
 {
     private Controller controller;
+    private String url = "store/order";
 
    @BeforeTest
    public void SetUp(){
-       controller = new Controller();
+       controller = new Controller(url);
    }
 
     @DataProvider
